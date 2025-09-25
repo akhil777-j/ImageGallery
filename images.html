@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        h1 {
+            font-size: 40;
+            text-align: center;
+            background-image: linear-gradient(white, red);
+            background-clip: text;
+            color: transparent;
+        }
+
+        #demo {
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            bottom: 90px;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        #demo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            border: 2px solid white;
+            transform: skew(-20deg);
+            margin-left: -50px;
+
+        }
+
+        #demo img:hover {
+            position: fixed;
+            top: 250px;
+            left: 50%;
+            transform: scale(3.3) skew(0deg);
+
+        }
+
+        @media (max-width: 480px) {
+
+            #demo {
+                display: grid !important;
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+                gap: 10px;
+                width: 100% !important;
+                bottom: 60px !important;
+                left: 0 !important;
+                padding: 10px;
+                margin: 164px auto;
+                position: fixed !important;
+                overflow-x: hidden !important;
+            }
+
+            #demo img {
+                position: relative !important;
+                width: 90px !important;
+                height: 90px !important;
+                margin-left: 0 !important;
+                border-radius: 10px;
+                border: 1px solid white;
+                transform: none !important;
+                transition: none !important;
+                
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Gallery</h1>
+    <div id="demo">
+
+    </div>
+    <script>
+        let divison = document.getElementById("demo");
+        divison.innerHTML = ``;
+        async function imageGallery() {
+            const Response = await axios.get('https://api.thecatapi.com/v1/images/search?limit=10');
+            Response.data.forEach(element => {
+                divison.innerHTML += `
+                <img src="${element.url}" alt="image">
+                `
+            });
+            console.log(Response);
+        }
+        imageGallery();
+    </script>
+</body>
+
+</html>
